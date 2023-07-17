@@ -21,7 +21,6 @@ class AggregatedLogFilterResolver implements ArgumentValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-
         $queryParameters = $request->query->all();
 
         $serializer = new Serializer([new AggregatedLogFilterDenormalizer()], [new JsonEncoder()]);

@@ -4,9 +4,18 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\AggregatedLog;
+use App\Factory\AggregatedLogFactory;
+use App\Repository\AggregatedLogRepository;
+
 final class AggregatedLogService
 {
-    public function parseAggregatedLog(string $logEntry): array
+    public function __construct(private AggregatedLogRepository $aggregatedLogRepository)
+    {
+
+    }
+
+    private function parseAggregatedLog(string $logEntry): array
     {
         $pattern = '/([\w-]+) - - \[(.+)\] "(.+)" (\d+)/';
         preg_match($pattern, $logEntry, $matches);
@@ -23,5 +32,12 @@ final class AggregatedLogService
             'method' => $endpoint[0],
             'endpoint' => trim($endpoint[1], '/'),
         ];
+    }
+
+    public function persistLogData(string $logEntry): void
+    {
+        $logData = $this->parseAggregatedLog($logEntry);
+        $log = AggregatedLogFactory::createAggregatedLog($logData);
+        $this->aggregatedLogRepository->save($log);
     }
 }

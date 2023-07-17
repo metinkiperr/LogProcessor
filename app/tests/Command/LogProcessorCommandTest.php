@@ -25,10 +25,7 @@ class LogProcessorCommandTest extends KernelTestCase
     public function execute()
     {
         $application = new Application();
-        $command = new LogProcessorCommand(
-            self::getContainer()->get(AggregatedLogRepository::class),
-            self::getContainer()->get(AggregatedLogService::class)
-        );
+        $command = new LogProcessorCommand(self::getContainer()->get(AggregatedLogService::class));
 
         $application->add($command);
         $commandTester = new CommandTester($command);

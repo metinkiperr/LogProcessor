@@ -21,10 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class LogProcessorCommand extends Command
 {
-    public function __construct(
-        private AggregatedLogRepository $logRepository,
-        private AggregatedLogService    $aggregatedLogService
-    ) {
+    public function __construct(private AggregatedLogService $aggregatedLogService)
+    {
         parent::__construct();
     }
 
@@ -40,9 +38,7 @@ class LogProcessorCommand extends Command
         $logs = file($logFilePath, FILE_IGNORE_NEW_LINES);
 
         foreach ($logs as $log) {
-            $logData = $this->aggregatedLogService->parseAggregatedLog($log);
-            $log = AggregatedLogFactory::createAggregatedLog($logData);
-            $this->logRepository->save($log);
+            $this->aggregatedLogService->persistLogData($log);
         }
 
         return Command::SUCCESS;
