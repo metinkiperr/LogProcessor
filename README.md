@@ -22,5 +22,18 @@ Also it includes an endpoint that returns the count of logs.
 ```
   php/phpunit
   ```
+## How To Use:
+ In the container terminal please run the 
+
+```
+symfony console app:lo:pro /relatedlogfilepath
+```
+
+Application Endpoint: 
+
+| Application | URL                         | Credentials                                         |
+|-------------|-----------------------------| --------------------------------------------------- |
+| count       | http://localhost:8080/count |                                                     |
+
 
 Written in PHP8 Symfony 6
